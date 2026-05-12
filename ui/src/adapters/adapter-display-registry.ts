@@ -9,6 +9,7 @@ import type { ComponentType } from "react";
 import {
   Bot,
   Code,
+  CircleDot,
   Gem,
   MousePointer2,
   Sparkles,
@@ -102,6 +103,11 @@ const adapterDisplayMap: Record<string, AdapterDisplayInfo> = {
     label: "Cursor Cloud",
     description: "Managed remote Cursor agent",
     icon: MousePointer2,
+  },
+  deepseek_local: {
+    label: "DeepSeek",
+    description: "DeepSeek API agent",
+    icon: CircleDot,
   },
   openclaw_gateway: {
     label: "OpenClaw Gateway",

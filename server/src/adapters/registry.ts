@@ -67,6 +67,16 @@ import {
 } from "@paperclipai/adapter-cursor-cloud/server";
 import { agentConfigurationDoc as cursorCloudAgentConfigurationDoc } from "@paperclipai/adapter-cursor-cloud";
 import {
+  execute as deepSeekExecute,
+  getConfigSchema as getDeepSeekConfigSchema,
+  testEnvironment as deepSeekTestEnvironment,
+} from "@paperclipai/adapter-deepseek-local/server";
+import {
+  agentConfigurationDoc as deepSeekAgentConfigurationDoc,
+  models as deepSeekModels,
+  modelProfiles as deepSeekModelProfiles,
+} from "@paperclipai/adapter-deepseek-local";
+import {
   execute as geminiExecute,
   listGeminiSkills,
   syncGeminiSkills,
@@ -330,6 +340,20 @@ const cursorCloudAdapter: ServerAdapterModule = {
   getConfigSchema: getCursorCloudConfigSchema,
 };
 
+const deepSeekLocalAdapter: ServerAdapterModule = {
+  type: "deepseek_local",
+  execute: deepSeekExecute,
+  testEnvironment: deepSeekTestEnvironment,
+  models: deepSeekModels,
+  modelProfiles: deepSeekModelProfiles,
+  supportsLocalAgentJwt: false,
+  supportsInstructionsBundle: true,
+  instructionsPathKey: "instructionsFilePath",
+  requiresMaterializedRuntimeSkills: false,
+  agentConfigurationDoc: deepSeekAgentConfigurationDoc,
+  getConfigSchema: getDeepSeekConfigSchema,
+};
+
 const geminiLocalAdapter: ServerAdapterModule = {
   type: "gemini_local",
   execute: geminiExecute,
@@ -484,6 +508,7 @@ function registerBuiltInAdapters() {
     openCodeLocalAdapter,
     piLocalAdapter,
     cursorCloudAdapter,
+    deepSeekLocalAdapter,
     cursorLocalAdapter,
     geminiLocalAdapter,
     openclawGatewayAdapter,

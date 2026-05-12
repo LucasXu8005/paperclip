@@ -230,6 +230,13 @@ describe("server adapter registry", () => {
         source: "adapter_default",
       }),
     ]);
+    await expect(listAdapterModelProfiles("deepseek_local")).resolves.toEqual([
+      expect.objectContaining({
+        key: "cheap",
+        adapterConfig: expect.objectContaining({ model: "deepseek-chat" }),
+        source: "adapter_default",
+      }),
+    ]);
     await expect(listAdapterModelProfiles("pi_local")).resolves.toEqual([]);
   });
 
