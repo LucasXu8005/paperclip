@@ -26,6 +26,20 @@ export function getConfigSchema(): AdapterConfigSchema {
         type: "number",
         hint: "Optional sampling temperature.",
       },
+      {
+        key: "maxToolIterations",
+        label: "Max tool iterations",
+        type: "number",
+        default: 60,
+        hint: "Maximum DeepSeek/tool loop turns before the adapter forces a final no-tool status response.",
+      },
+      {
+        key: "timeoutSec",
+        label: "API timeout",
+        type: "number",
+        default: 120,
+        hint: "Timeout in seconds for each DeepSeek API request.",
+      },
     ],
   };
 }

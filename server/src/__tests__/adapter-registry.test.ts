@@ -194,6 +194,12 @@ describe("server adapter registry", () => {
     expect(adapter!.supportsLocalAgentJwt).toBe(true);
   });
 
+  it("deepseek_local injects local agent JWT for Paperclip API tools", () => {
+    const adapter = findActiveServerAdapter("deepseek_local");
+    expect(adapter).not.toBeNull();
+    expect(adapter!.supportsLocalAgentJwt).toBe(true);
+  });
+
   it("built-in local adapters declare cheap model profile defaults where supported", async () => {
     await expect(listAdapterModelProfiles("claude_local")).resolves.toEqual([
       expect.objectContaining({

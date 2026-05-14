@@ -49,6 +49,7 @@ export function buildDeepSeekLocalConfig(values: CreateConfigValues): Record<str
     model: values.model || schemaValues.model || DEFAULT_DEEPSEEK_LOCAL_MODEL,
     baseUrl: schemaValues.baseUrl || DEFAULT_DEEPSEEK_BASE_URL,
   };
+  if (values.cwd) config.cwd = values.cwd;
   if (values.instructionsFilePath) config.instructionsFilePath = values.instructionsFilePath;
   if (values.promptTemplate) config.promptTemplate = values.promptTemplate;
   if (values.bootstrapPrompt) config.bootstrapPromptTemplate = values.bootstrapPrompt;

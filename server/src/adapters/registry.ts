@@ -346,7 +346,7 @@ const deepSeekLocalAdapter: ServerAdapterModule = {
   testEnvironment: deepSeekTestEnvironment,
   models: deepSeekModels,
   modelProfiles: deepSeekModelProfiles,
-  supportsLocalAgentJwt: false,
+  supportsLocalAgentJwt: true,
   supportsInstructionsBundle: true,
   instructionsPathKey: "instructionsFilePath",
   requiresMaterializedRuntimeSkills: false,

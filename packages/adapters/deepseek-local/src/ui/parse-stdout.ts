@@ -37,6 +37,29 @@ export function parseDeepSeekStdoutLine(line: string, ts: string): TranscriptEnt
     const text = asString(parsed.text);
     return text ? [{ kind: "assistant", ts, text }] : [];
   }
+  if (type === "deepseek.tool_call") {
+    return [
+      {
+        kind: "tool_call",
+        ts,
+        name: asString(parsed.name, "tool"),
+        toolUseId: asString(parsed.id) || undefined,
+        input: parsed.input ?? {},
+      },
+    ];
+  }
+  if (type === "deepseek.tool_result") {
+    return [
+      {
+        kind: "tool_result",
+        ts,
+        toolUseId: asString(parsed.id, "tool_result"),
+        toolName: asString(parsed.name, "tool"),
+        content: asString(parsed.content),
+        isError: parsed.isError === true,
+      },
+    ];
+  }
   if (type === "deepseek.result") {
     const usage = asRecord(parsed.usage) ?? {};
     return [
@@ -56,6 +79,9 @@ export function parseDeepSeekStdoutLine(line: string, ts: string): TranscriptEnt
   }
   if (type === "deepseek.error") {
     return [{ kind: "stderr", ts, text: asString(parsed.error, "DeepSeek error") }];
+  }
+  if (type === "deepseek.warning") {
+    return [{ kind: "stderr", ts, text: asString(parsed.warning, "DeepSeek warning") }];
   }
 
   return [{ kind: "stdout", ts, text: line }];

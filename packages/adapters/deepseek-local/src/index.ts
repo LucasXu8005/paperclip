@@ -29,11 +29,11 @@ Adapter: deepseek_local
 
 Use when:
 - You want Paperclip to invoke DeepSeek through its OpenAI-compatible chat completions API
-- You want a lightweight API-backed agent that returns a transcript and run summary
+- You want a lightweight API-backed local agent with Paperclip-provided tools
 - You want deepseek-reasoner reasoning output shown as thinking transcript entries
 
 Don't use when:
-- You need local filesystem/tool execution (use claude_local, codex_local, gemini_local, opencode_local, pi_local, or cursor)
+- You need the full maturity of a dedicated coding CLI session adapter (use claude_local, codex_local, gemini_local, opencode_local, pi_local, or cursor)
 - You need webhook-style external invocation (use http or openclaw_gateway)
 - You only need a one-shot shell command (use process)
 
@@ -44,9 +44,11 @@ Core fields:
 - promptTemplate (string, optional): run prompt template
 - maxTokens (number, optional): maximum output tokens
 - temperature (number, optional): sampling temperature
+- maxToolIterations (number, optional): maximum DeepSeek/tool loop turns before a final no-tool status response. Defaults to 60.
 - env.DEEPSEEK_API_KEY (string, optional): DeepSeek API key. Falls back to server process DEEPSEEK_API_KEY.
 
 Notes:
-- This adapter calls /chat/completions directly; it does not provide local tools or session resume.
+- This adapter calls /chat/completions with tool definitions. The adapter executes file, shell, search, and Paperclip API tools locally.
+- It does not provide durable native session resume like Claude Code or Codex CLI.
 - The model's final text is logged as assistant output and returned as the run summary.
 `;
