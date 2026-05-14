@@ -456,7 +456,10 @@ async function callDeepSeek(input: {
   if (input.temperature !== null) body.temperature = input.temperature;
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), input.timeoutSec * 1000);
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+  if (input.timeoutSec > 0) {
+    timeout = setTimeout(() => controller.abort(), input.timeoutSec * 1000);
+  }
   let res: Response;
   try {
     res = await fetch(url, {
@@ -474,7 +477,7 @@ async function callDeepSeek(input: {
     }
     throw err;
   } finally {
-    clearTimeout(timeout);
+    if (timeout !== undefined) clearTimeout(timeout);
   }
 
   const text = await res.text();
@@ -504,7 +507,8 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
   const maxTokens = asNumber(config.maxTokens, 0) > 0 ? asNumber(config.maxTokens, 0) : null;
   const temperature = asNumber(config.temperature, Number.NaN);
   const normalizedTemperature = Number.isFinite(temperature) ? temperature : null;
-  const timeoutSec = Math.max(1, Math.min(600, asNumber(config.timeoutSec, 120)));
+  const rawTimeout = asNumber(config.timeoutSec, 120);
+  const timeoutSec = rawTimeout > 0 ? Math.max(1, Math.min(600, rawTimeout)) : 0;
 
   await onLog("stdout", eventLine({ type: "deepseek.init", model }));
 
